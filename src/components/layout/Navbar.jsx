@@ -1,12 +1,14 @@
+import { Link, NavLink } from 'react-router-dom';
+
 export default function Navbar() {
   return (
     <nav>
-        <a href="/">ShopCart</a>
+        <Link to="/"><h2>ShopCart</h2></Link>
 
         <div>
-            <a href="/">Home</a>
-            <a href="/shop">Shop</a>
-            <a href="/cart">Cart 🛒</a>
+            <NavLink to="/">Home</NavLink>
+            <NavLink to="/shop">Shop</NavLink>
+            <NavLink to="/cart">Cart 🛒</NavLink>
         </div>
     </nav> 
     );

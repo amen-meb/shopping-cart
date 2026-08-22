@@ -18,14 +18,14 @@ nav {
   background: white;
 }
 
-nav div {
-  display: flex;
-  gap: 20px;
-}
-
 nav a {
   text-decoration: none;
   color: #222;
+}
+
+nav div {
+  display: flex;
+  gap: 20px;
 }
 
 dev {
