@@ -1,7 +1,7 @@
 export default function Navbar() {
   return (
     <nav>
-        <h1>My Shopping Cart</h1>
+        <h1>ShopCart</h1>
 
         <div>
             <a href="/">Home</a>
