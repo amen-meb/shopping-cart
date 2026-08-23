@@ -1,8 +1,13 @@
+import Hero from "../components/home/Hero";
+import CategoryGrid from "../components/home/CategoryGrid";
+import FeaturedProduct from "../components/home/FeaturedProducts";
+
 export default function Home() {
   return (
     <div>
-      <h1>Home</h1>
-      <p>Welcome to My Shopping Cart!</p>
+      <Hero />
+      <CategoryGrid />
+      <FeaturedProduct />
     </div>
   );
 }
