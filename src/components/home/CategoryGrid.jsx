@@ -19,19 +19,19 @@ const categories = [
 
 export default function CategoryGrid() {
   return (
-    <section className="category">
-        <div className="section-headeer">
-            <p>EXPLORE</p>
-            <h2>Shop by Category</h2>
+    <section className="px-10 py-[70px] max-[600px]:px-5 max-[600px]:py-[50px]">
+        <div className="mb-[35px]">
+            <p className="mb-2 text-[13px] tracking-[2px]">EXPLORE</p>
+            <h2 className="text-[32px]">Shop by Category</h2>
         </div>
 
-      <div className="category-grid">
+      <div className="grid grid-cols-4 gap-5 max-[900px]:grid-cols-2 max-[600px]:grid-cols-1">
         {categories.map((category) => (
-          <div key={category.name} className="category-card">
-            <h3>{category.name}</h3>
-            <p>{category.description}</p>
+          <div key={category.name} className="border border-neutral-300 bg-white p-[30px]">
+            <h3 className="mb-3">{category.name}</h3>
+            <p className="mb-5 leading-[1.5] text-neutral-500">{category.description}</p>
 
-            <a href="/shop">Explore</a>
+            <a className="font-bold text-neutral-900 no-underline" href="/shop">Explore</a>
           </div>
         ))}
       </div>

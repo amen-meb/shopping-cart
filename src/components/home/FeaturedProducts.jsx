@@ -20,24 +20,24 @@ const featuredProducts = [
 
 export default function FeaturedProduct() {
       return (
-    <section className="featured-products">
-      <div className="section-header">
-        <p>OUR PICKS</p>
-        <h2>Featured Products</h2>
+    <section className="px-10 py-[70px] max-[600px]:px-5 max-[600px]:py-[50px]">
+      <div className="mb-[35px]">
+        <p className="mb-2 text-[13px] tracking-[2px]">OUR PICKS</p>
+        <h2 className="text-[32px]">Featured Products</h2>
       </div>
 
-      <div className="featured-grid">
+      <div className="grid grid-cols-3 gap-6 max-[900px]:grid-cols-1">
         {featuredProducts.map((product) => (
-          <div className="featured-card" key={product.id}>
-            <div className="product-placeholder">
+          <div className="bg-white p-5" key={product.id}>
+            <div className="mb-5 flex h-[280px] items-center justify-center bg-neutral-200">
               Product Image
             </div>
 
-            <h3>{product.name}</h3>
+            <h3 className="mb-2.5">{product.name}</h3>
 
-            <p>${product.price}</p>
+            <p className="mb-[15px] font-bold">${product.price}</p>
 
-            <Link to={`/shop/${product.id}`}>
+            <Link className="text-neutral-900 no-underline" to={`/shop/${product.id}`}>
               View Product →
             </Link>
           </div>
