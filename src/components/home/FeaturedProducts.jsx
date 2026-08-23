@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 const featuredProducts = [
   {
     id: 1,
@@ -35,9 +37,9 @@ export default function FeaturedProduct() {
 
             <p>${product.price}</p>
 
-            <a href={`/shop/${product.id}`}>
+            <Link to={`/shop/${product.id}`}>
               View Product →
-            </a>
+            </Link>
           </div>
         ))}
       </div>
