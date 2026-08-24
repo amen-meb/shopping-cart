@@ -1,41 +1,54 @@
 import { useEffect, useState } from "react";
 
-export default function useProduct() {
-    const [products, setProducts] = useState([]);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
+const API_URL = "https://fakestoreapi.com/products";
 
-    useEffect(() => {
-        async function fetchProducts() {
-        try {
-            setLoading(true);
-            setError(null);
+function useProducts() {
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-            const response = await fetch(
-            "https://fakestoreapi.com/products"
-            );
+  useEffect(() => {
+    const controller = new AbortController();
 
-            if (!response.ok) {
-            throw new Error("Failed to fetch products");
-            }
+    async function fetchProducts() {
+      try {
+        setLoading(true);
+        setError(null);
 
-            const data = await response.json();
+        const response = await fetch(API_URL, {
+          signal: controller.signal,
+        });
 
-            setProducts(data);
-        } catch (error) {
-            setError(error.message);
-        } finally {
-            setLoading(false);
-        }
+        if (!response.ok) {
+          throw new Error("Failed to fetch products");
         }
 
-        fetchProducts();
-    }, []);
+        const data = await response.json();
 
-    return{
-        products,
-        loading,
-        error,
-    };
-
+        setProducts(data);
+      } catch (error) {
+        if (error.name !== "AbortError") {
+          setError(error.message);
+        }
+      } finally {
+        if (!controller.signal.aborted) {
+          setLoading(false);
+        }
+      }
     }
+
+    fetchProducts();
+
+    return () => {
+      controller.abort();
+    };
+  }, []);
+
+  return {
+    products,
+    loading,
+    error,
+  };
+}
+
+export default useProducts;
