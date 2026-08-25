@@ -22,7 +22,7 @@ export default function ProductCard({ product }) {
 
         <Link to={`/shop/${product.id}`}>
           <h2 className="line-clamp-2 min-h-12 font-semibold hover:underline">
-            {product.title}
+              {product.title}
           </h2>
         </Link>
 

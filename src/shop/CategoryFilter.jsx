@@ -1,3 +1,14 @@
+function formatCategory(category) {
+  return category
+    .split(" ")
+    .map(
+      (word) =>
+        word.charAt(0).toUpperCase() +
+        word.slice(1)
+    )
+    .join(" ");
+}
+
 export default function CategoryFilter({
   categories,
   selectedCategory,
@@ -28,7 +39,7 @@ export default function CategoryFilter({
             key={category}
             value={category}
           >
-            {category}
+            {formatCategory(category)}
           </option>
         ))}
       </select>

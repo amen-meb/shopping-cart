@@ -5,54 +5,128 @@ import useCategories from "../hooks/useCategories";
 
 import ProductGrid from "../product/ProductGrid";
 import CategoryFilter from "../shop/CategoryFilter";
+import SearchBar from "../shop/SearchBar";
+import SortSelect from "../shop/SortSelect";
+import LoadingSpinner from "../components/common/LoadingSpinner";
 
 export default function Shop() {
+  // -----------------------------
+  // Fetch Products
+  // -----------------------------
   const {
     products,
     loading: productsLoading,
     error: productsError,
   } = useProducts();
 
+  // -----------------------------
+  // Fetch Categories
+  // -----------------------------
   const {
     categories,
     loading: categoriesLoading,
     error: categoriesError,
   } = useCategories();
 
+  // -----------------------------
+  // State
+  // -----------------------------
   const [selectedCategory, setSelectedCategory] =
     useState("all");
 
-  const filteredProducts = useMemo(() => {
-    if (selectedCategory === "all") {
-      return products;
+  const [searchTerm, setSearchTerm] =
+    useState("");
+
+  const [sortOption, setSortOption] =
+    useState("default");
+
+  // -----------------------------
+  // Search + Filter + Sort
+  // -----------------------------
+  const displayProducts = useMemo(() => {
+    let result = [...products];
+
+    // Search
+    if (searchTerm.trim() !== "") {
+      result = result.filter((product) =>
+        product.title
+          .toLowerCase()
+          .includes(searchTerm.toLowerCase())
+      );
     }
 
-    return products.filter(
-      (product) =>
-        product.category === selectedCategory
-    );
-  }, [products, selectedCategory]);
+    // Category Filter
+    if (selectedCategory !== "all") {
+      result = result.filter(
+        (product) =>
+          product.category === selectedCategory
+      );
+    }
 
+    // Sort
+    switch (sortOption) {
+      case "price-low":
+        result.sort((a, b) => a.price - b.price);
+        break;
+
+      case "price-high":
+        result.sort((a, b) => b.price - a.price);
+        break;
+
+      case "name-az":
+        result.sort((a, b) => a.title.localeCompare(b.title));
+        break;
+
+      case "name-za":
+        result.sort((a, b) => b.title.localeCompare(a.title));
+        break;
+
+      case "rating-high":
+        result.sort((a, b) => b.rating.rate - a.rating.rate);
+        break;
+
+      default:
+        break;
+    }
+
+    return result;
+  }, [
+    products,
+    searchTerm,
+    selectedCategory,
+    sortOption,
+  ]);
+
+  // -----------------------------
+  // Loading State
+  // -----------------------------
   const loading =
     productsLoading || categoriesLoading;
 
+  // -----------------------------
+  // Error State
+  // -----------------------------
   const error =
     productsError || categoriesError;
 
+  // -----------------------------
+  // Loading UI
+  // -----------------------------
   if (loading) {
     return (
       <main className="mx-auto max-w-7xl px-6 py-20 text-center">
-        <h1 className="text-4xl font-bold" >
+        <h1 className="text-4xl font-bold">
           Shop
         </h1>
 
-        <p className="mt-4 text-gray-500">
-          Loading...
-        </p>
+        <LoadingSpinner />
       </main>
     );
   }
 
+  // -----------------------------
+  // Error UI
+  // -----------------------------
   if (error) {
     return (
       <main className="mx-auto max-w-7xl px-6 py-20">
@@ -73,8 +147,12 @@ export default function Shop() {
     );
   }
 
+  // -----------------------------
+  // Main Shop UI
+  // -----------------------------
   return (
     <main className="mx-auto max-w-7xl px-6 py-16">
+      {/* Header */}
       <div className="mb-10">
         <p className="text-sm font-semibold tracking-widest text-gray-500">
           OUR STORE
@@ -85,18 +163,53 @@ export default function Shop() {
         </h1>
 
         <p className="mt-3 text-gray-500">
-          {filteredProducts.length} products
+          Showing{" "}
+          <span className="font-semibold text-gray-900">
+            {displayProducts.length}
+          </span>{" "}
+          of{" "}
+          <span className="font-semibold text-gray-900">
+            {products.length}
+          </span>{" "}
+          products
         </p>
       </div>
 
-      <CategoryFilter
-        categories={categories}
-        selectedCategory={selectedCategory}
-        onCategoryChange={setSelectedCategory}
-      />
+      <div className="mb-10 grid gap-6 rounded-lg border bg-white p-6 md:grid-cols-3">
+        {/* Search */}
+        <SearchBar
+          searchTerm={searchTerm}
+          onSearchChange={setSearchTerm}
+        />
 
-      <ProductGrid products={filteredProducts} />
+        {/* Category */}
+        <CategoryFilter
+          categories={categories}
+          selectedCategory={selectedCategory}
+          onCategoryChange={setSelectedCategory}
+        />
+
+        {/* Sort */}
+        <SortSelect
+          sortOption={sortOption}
+          onSortChange={setSortOption}
+        />
+      </div>
+
+      {/* Products */}
+      {displayProducts.length > 0 ? (
+        <ProductGrid products={displayProducts} />
+      ) : (
+        <div className="rounded-lg border bg-gray-50 py-16 text-center">
+          <h2 className="text-xl font-semibold">
+            No products found
+          </h2>
+
+          <p className="mt-2 text-gray-500">
+            Try changing your search or category.
+          </p>
+        </div>
+      )}
     </main>
   );
 }
-
