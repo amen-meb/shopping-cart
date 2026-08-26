@@ -3,6 +3,7 @@ import { Link, useParams } from "react-router-dom";
 
 import useProduct from "../hooks/useProduct";
 import LoadingSpinner from "../components/common/LoadingSpinner";
+import { useCart } from "../context/CartContext";
 
 export default function ProductDetail() {
   const { id } = useParams();
@@ -13,6 +14,7 @@ export default function ProductDetail() {
     error,
   } = useProduct(id);
 
+  const { addToCart } = useCart();
   const [quantity, setQuantity] = useState(1);
 
   if (loading) {
@@ -164,6 +166,9 @@ export default function ProductDetail() {
               {/* Add to Cart */}
               <button
                 type="button"
+                onClick={() =>
+                  addToCart(product, quantity)
+                }
                 className="flex-1 rounded-md bg-gray-950 px-6 py-3 font-semibold text-white transition hover:bg-gray-800"
               >
                 Add to Cart

@@ -3,10 +3,10 @@ import { useMemo, useState } from "react";
 import useProducts from "../hooks/useProducts";
 import useCategories from "../hooks/useCategories";
 
-import ProductGrid from "../product/ProductGrid";
-import CategoryFilter from "../shop/CategoryFilter";
-import SearchBar from "../shop/SearchBar";
-import SortSelect from "../shop/SortSelect";
+import ProductGrid from "../components/product/ProductGrid";
+import CategoryFilter from "../components/shop/CategoryFilter";
+import SearchBar from "../components/shop/SearchBar";
+import SortSelect from "../components/shop/SortSelect";
 import LoadingSpinner from "../components/common/LoadingSpinner";
 
 export default function Shop() {
