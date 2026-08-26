@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { useCart } from "../../context/CartContext";
 
 function OrderSummary() {
@@ -47,12 +48,12 @@ function OrderSummary() {
       </div>
 
       {/* Checkout */}
-      <button
-        type="button"
-        className="mt-8 w-full rounded-md bg-gray-950 px-6 py-3 font-semibold text-white transition hover:bg-gray-800"
-      >
+      <Link
+        to="/checkout"
+        className="mt-8 block w-full rounded-md bg-gray-950 px-6 py-3 text-center font-semibold text-white transition hover:bg-gray-800"
+        >
         Proceed to Checkout
-      </button>
+        </Link>
 
       {/* Clear Cart */}
       <button

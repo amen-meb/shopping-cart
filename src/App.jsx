@@ -7,6 +7,7 @@ import Home from './pages/Home'
 import Shop from './pages/Shop'
 import ProductDetail from './pages/ProductDetail'
 import Cart from './pages/Cart'
+import Checkout from './pages/Checkout'
 import NotFound from './pages/NotFound'
 
 function App() {
@@ -14,12 +15,13 @@ function App() {
     <div className="flex min-h-screen flex-col">
       <Navbar />
 
-      <div className="flex-1">
+      <div className="flex-1 pt-20 md:pt-20">
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/shop" element={<Shop />} />
           <Route path="/shop/:id" element={<ProductDetail />} />
           <Route path="/cart" element={<Cart />} />
+          <Route path="/checkout" element={<Checkout />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </div>

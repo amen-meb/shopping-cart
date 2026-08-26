@@ -10,52 +10,37 @@ import SortSelect from "../components/shop/SortSelect";
 import LoadingSpinner from "../components/common/LoadingSpinner";
 
 export default function Shop() {
-  // -----------------------------
-  // Fetch Products
-  // -----------------------------
   const {
     products,
     loading: productsLoading,
     error: productsError,
   } = useProducts();
 
-  // -----------------------------
-  // Fetch Categories
-  // -----------------------------
   const {
     categories,
     loading: categoriesLoading,
     error: categoriesError,
   } = useCategories();
 
-  // -----------------------------
-  // State
-  // -----------------------------
-  const [selectedCategory, setSelectedCategory] =
-    useState("all");
+  const [selectedCategory, setSelectedCategory] = useState("all");
+  const [searchTerm, setSearchTerm] = useState("");
+  const [sortOption, setSortOption] = useState("default");
 
-  const [searchTerm, setSearchTerm] =
-    useState("");
-
-  const [sortOption, setSortOption] =
-    useState("default");
-
-  // -----------------------------
-  // Search + Filter + Sort
-  // -----------------------------
   const displayProducts = useMemo(() => {
     let result = [...products];
 
-    // Search
-    if (searchTerm.trim() !== "") {
+    const normalizedSearch = searchTerm
+      .trim()
+      .toLowerCase();
+
+    if (normalizedSearch !== "") {
       result = result.filter((product) =>
         product.title
           .toLowerCase()
-          .includes(searchTerm.toLowerCase())
+          .includes(normalizedSearch)
       );
     }
 
-    // Category Filter
     if (selectedCategory !== "all") {
       result = result.filter(
         (product) =>
@@ -63,7 +48,6 @@ export default function Shop() {
       );
     }
 
-    // Sort
     switch (sortOption) {
       case "price-low":
         result.sort((a, b) => a.price - b.price);
@@ -74,17 +58,23 @@ export default function Shop() {
         break;
 
       case "name-az":
-        result.sort((a, b) => a.title.localeCompare(b.title));
+        result.sort((a, b) =>
+          a.title.localeCompare(b.title)
+        );
         break;
 
       case "name-za":
-        result.sort((a, b) => b.title.localeCompare(a.title));
+        result.sort((a, b) =>
+          b.title.localeCompare(a.title)
+        );
         break;
 
       case "rating-high":
-        result.sort((a, b) => b.rating.rate - a.rating.rate);
+        result.sort(
+          (a, b) =>
+            b.rating.rate - a.rating.rate
+        );
         break;
-
       default:
         break;
     }
@@ -94,65 +84,53 @@ export default function Shop() {
     products,
     searchTerm,
     selectedCategory,
-    sortOption,
-  ]);
+    sortOption,]);
 
-  // -----------------------------
-  // Loading State
-  // -----------------------------
   const loading =
     productsLoading || categoriesLoading;
 
-  // -----------------------------
-  // Error State
-  // -----------------------------
   const error =
     productsError || categoriesError;
 
-  // -----------------------------
-  // Loading UI
-  // -----------------------------
   if (loading) {
     return (
-      <main className="mx-auto max-w-7xl px-6 py-20 text-center">
-        <h1 className="text-4xl font-bold">
-          Shop
-        </h1>
+      <main className="mx-auto w-full max-w-7xl px-6 py-20">
+        <div className="text-center">
+          <h1 className="text-4xl font-bold">
+            Shop
+          </h1>
 
-        <LoadingSpinner />
-      </main>
-    );
-  }
-
-  // -----------------------------
-  // Error UI
-  // -----------------------------
-  if (error) {
-    return (
-      <main className="mx-auto max-w-7xl px-6 py-20">
-        <h1 className="text-4xl font-bold">
-          Shop
-        </h1>
-
-        <div className="mt-10 rounded-lg border border-red-200 bg-red-50 p-6">
-          <p className="font-semibold text-red-700">
-            Something went wrong
-          </p>
-
-          <p className="mt-2 text-red-600">
-            {error}
-          </p>
+          <LoadingSpinner />
         </div>
       </main>
     );
   }
 
-  // -----------------------------
-  // Main Shop UI
-  // -----------------------------
+  if (error) {
+    return (
+      <main className="mx-auto w-full max-w-7xl px-6 py-20">
+        <div className="text-center">
+          <h1 className="text-4xl font-bold">
+            Shop
+          </h1>
+
+          <div className="mx-auto mt-10 max-w-xl rounded-lg border border-red-200 bg-red-50 p-6 text-left">
+            <p className="font-semibold text-red-700">
+              Something went wrong
+            </p>
+
+            <p className="mt-2 break-words text-red-600">
+              {error}
+            </p>
+          </div>
+        </div>
+      </main>
+    );
+  }
+
   return (
-    <main className="mx-auto max-w-7xl px-6 py-16">
-      {/* Header */}
+    <main className="mx-auto w-full max-w-7xl px-6 py-16">
+
       <div className="mb-10">
         <p className="text-sm font-semibold tracking-widest text-gray-500">
           OUR STORE
@@ -175,32 +153,35 @@ export default function Shop() {
         </p>
       </div>
 
-      <div className="mb-10 grid gap-6 rounded-lg border bg-white p-6 md:grid-cols-3">
-        {/* Search */}
-        <SearchBar
-          searchTerm={searchTerm}
-          onSearchChange={setSearchTerm}
-        />
+      <div className="mb-10 grid min-w-0 gap-6 rounded-lg border border-gray-200 bg-white p-6 md:grid-cols-1 lg:grid-cols-3">
+        <div className="min-w-0">
+          <SearchBar
+            searchTerm={searchTerm}
+            onSearchChange={setSearchTerm}
+          />
+        </div>
 
-        {/* Category */}
-        <CategoryFilter
-          categories={categories}
-          selectedCategory={selectedCategory}
-          onCategoryChange={setSelectedCategory}
-        />
+        <div className="min-w-0">
+          <CategoryFilter
+            categories={categories}
+            selectedCategory={selectedCategory}
+            onCategoryChange={setSelectedCategory}
+          />
+        </div>
 
-        {/* Sort */}
-        <SortSelect
-          sortOption={sortOption}
-          onSortChange={setSortOption}
-        />
+        <div className="min-w-0">
+          <SortSelect
+            sortOption={sortOption}
+            onSortChange={setSortOption}
+          />
+        </div>
       </div>
 
-      {/* Products */}
+
       {displayProducts.length > 0 ? (
         <ProductGrid products={displayProducts} />
       ) : (
-        <div className="rounded-lg border bg-gray-50 py-16 text-center">
+        <div className="rounded-lg border border-gray-200 bg-gray-50 py-16 text-center">
           <h2 className="text-xl font-semibold">
             No products found
           </h2>
