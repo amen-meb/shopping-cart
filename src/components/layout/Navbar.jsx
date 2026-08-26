@@ -1,15 +1,61 @@
-import { Link, NavLink } from 'react-router-dom';
+import { Link, NavLink } from "react-router-dom";
 
-export default function Navbar() {
+import { useCart } from "../../context/CartContext";
+
+function Navbar() {
+  const { itemCount } = useCart();
+
+  const navLinkClass = ({ isActive }) =>
+    `transition ${
+      isActive
+        ? "font-semibold text-gray-950"
+        : "text-gray-600 hover:text-gray-950"
+    }`;
+
   return (
-    <nav className="flex items-center justify-between bg-white px-10 py-5 max-[600px]:px-5">
-        <Link to="/" className="text-neutral-900 no-underline"><h2>ShopCart</h2></Link>
+    <header className="border-b border-gray-200 bg-white">
+      <nav className="mx-auto flex max-w-7xl items-center justify-between px-6 py-5">
+        {/* Logo */}
+        <Link
+          to="/"
+          className="text-xl font-bold tracking-tight"
+        >
+          ShopCart
+        </Link>
 
-        <div className="flex gap-5 max-[600px]:gap-2.5">
-            <NavLink className="text-neutral-900 no-underline" to="/">Home</NavLink>
-            <NavLink className="text-neutral-900 no-underline" to="/shop">Shop</NavLink>
-            <NavLink className="text-neutral-900 no-underline" to="/cart">Cart 🛒</NavLink>
+        {/* Navigation */}
+        <div className="flex items-center gap-6">
+          <NavLink
+            to="/"
+            className={navLinkClass}
+          >
+            Home
+          </NavLink>
+
+          <NavLink
+            to="/shop"
+            className={navLinkClass}
+          >
+            Shop
+          </NavLink>
         </div>
-    </nav> 
-    );
+
+          {/* Cart */}
+        <NavLink
+            to="/cart"
+            className={navLinkClass}
+          >
+            <span className="flex items-center gap-2">
+              Cart 🛒
+
+              <span className="flex h-6 min-w-6 items-center justify-center rounded-full bg-gray-950 px-2 text-xs font-bold text-white">
+                {itemCount}
+              </span>
+            </span>
+        </NavLink>
+      </nav>
+    </header>
+  );
 }
+
+export default Navbar;

@@ -16,6 +16,17 @@ export default function ProductDetail() {
 
   const { addToCart } = useCart();
   const [quantity, setQuantity] = useState(1);
+  const [added, setAdded] = useState(false);
+
+  const handleAddToCart = () => {
+  addToCart(product, quantity);
+
+  setAdded(true);
+
+  setTimeout(() => {
+    setAdded(false);
+  }, 1500);
+};
 
   if (loading) {
     return (
@@ -164,15 +175,15 @@ export default function ProductDetail() {
               </div>
 
               {/* Add to Cart */}
+
               <button
                 type="button"
-                onClick={() =>
-                  addToCart(product, quantity)
-                }
+                onClick={handleAddToCart}
                 className="flex-1 rounded-md bg-gray-950 px-6 py-3 font-semibold text-white transition hover:bg-gray-800"
               >
-                Add to Cart
+                {added ? "Added to Cart ✓" : "Add to Cart"}
               </button>
+              
             </div>
           </div>
         </div>
