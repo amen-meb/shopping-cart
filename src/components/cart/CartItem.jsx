@@ -6,14 +6,19 @@ function CartItem({ item }) {
     removeFromCart,
   } = useCart();
 
-  const decreaseQuantity = () => {
+  const handleDecrease = () => {
+    if (item.quantity <= 1) {
+      removeFromCart(item.id);
+      return;
+    }
+
     updateQuantity(
       item.id,
-      Math.max(1, item.quantity - 1)
+      item.quantity - 1
     );
   };
 
-  const increaseQuantity = () => {
+  const handleIncrease = () => {
     updateQuantity(
       item.id,
       item.quantity + 1
@@ -21,71 +26,80 @@ function CartItem({ item }) {
   };
 
   return (
-    <article className="flex flex-col gap-6 border-b border-gray-200 py-6 sm:flex-row sm:items-center">
-      {/* Product Image */}
-      <div className="flex h-32 w-32 shrink-0 items-center justify-center rounded-lg bg-gray-100 p-4">
-        <img
-          src={item.image}
-          alt={item.title}
-          className="h-full w-full object-contain"
-        />
+    <article className="border-b border-gray-200 p-5 last:border-b-0">
+      <div className="flex flex-col gap-5 sm:flex-row">
+
+        <div className="flex h-40 w-full shrink-0 items-center justify-center rounded-xl bg-gray-100 p-5 sm:h-32 sm:w-32">
+          <img
+            src={item.image}
+            alt={item.title}
+            className="h-full w-full object-contain"
+          />
+        </div>
+
+        <div className="flex min-w-0 flex-1 flex-col">
+
+          <p className="text-sm font-medium uppercase tracking-wide text-gray-500">
+            {item.category}
+          </p>
+
+          <h2 className="mt-1 text-lg font-semibold leading-6 text-gray-950">
+            {item.title}
+          </h2>
+
+          <p className="mt-3 text-lg font-medium text-gray-950">
+            ${item.price.toFixed(2)}
+          </p>
+
+          <div className="mt-5 flex flex-wrap items-center justify-between gap-4">
+
+            <div className="flex w-fit items-center rounded-md border border-gray-300">
+
+              <button
+                type="button"
+                onClick={handleDecrease}
+                className="px-4 py-2 text-lg transition hover:bg-gray-100"
+                aria-label="Decrease quantity"
+              >
+                −
+              </button>
+
+              <span className="min-w-10 px-2 text-center font-semibold">
+                {item.quantity}
+              </span>
+
+              <button
+                type="button"
+                onClick={handleIncrease}
+                className="px-4 py-2 text-lg transition hover:bg-gray-100"
+                aria-label="Increase quantity"
+              >
+                +
+              </button>
+
+            </div>
+
+            <p className="text-lg font-bold text-gray-950">
+              $
+              {(
+                item.price * item.quantity
+              ).toFixed(2)}
+            </p>
+
+          </div>
+
+          <button
+            type="button"
+            onClick={() =>
+              removeFromCart(item.id)
+            }
+            className="mt-4 w-fit text-sm font-semibold text-red-600 transition hover:text-red-700 hover:underline"
+          >
+            Remove
+          </button>
+
+        </div>
       </div>
-
-      {/* Product Information */}
-      <div className="flex flex-1 flex-col">
-        <p className="text-xs font-semibold uppercase tracking-wider text-gray-500">
-          {item.category}
-        </p>
-
-        <h2 className="mt-1 line-clamp-2 font-semibold text-gray-950">
-          {item.title}
-        </h2>
-
-        <p className="mt-2 font-semibold">
-          ${item.price.toFixed(2)}
-        </p>
-      </div>
-
-      {/* Quantity Controls */}
-      <div className="flex items-center rounded-md border border-gray-300">
-        <button
-          type="button"
-          onClick={decreaseQuantity}
-          className="px-4 py-2 text-lg transition hover:bg-gray-100"
-          aria-label={`Decrease quantity of ${item.title}`}
-        >
-          −
-        </button>
-
-        <span className="min-w-12 text-center font-semibold">
-          {item.quantity}
-        </span>
-
-        <button
-          type="button"
-          onClick={increaseQuantity}
-          className="px-4 py-2 text-lg transition hover:bg-gray-100"
-          aria-label={`Increase quantity of ${item.title}`}
-        >
-          +
-        </button>
-      </div>
-
-      {/* Item Total */}
-      <p className="min-w-24 text-right font-bold">
-        ${(item.price * item.quantity).toFixed(2)}
-      </p>
-
-      {/* Remove */}
-      <button
-        type="button"
-        onClick={() =>
-          removeFromCart(item.id)
-        }
-        className="text-left text-sm font-semibold text-red-600 hover:underline sm:text-right"
-      >
-        Remove
-      </button>
     </article>
   );
 }

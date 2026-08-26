@@ -15,22 +15,37 @@ export default function ProductDetail() {
   } = useProduct(id);
 
   const { addToCart } = useCart();
+
   const [quantity, setQuantity] = useState(1);
   const [added, setAdded] = useState(false);
 
   const handleAddToCart = () => {
-  addToCart(product, quantity);
+    if (!product) return;
 
-  setAdded(true);
+    addToCart(product, quantity);
 
-  setTimeout(() => {
-    setAdded(false);
-  }, 1500);
-};
+    setAdded(true);
+
+    setTimeout(() => {
+      setAdded(false);
+    }, 1500);
+  };
+
+  const decreaseQuantity = () => {
+    setQuantity((currentQuantity) =>
+      Math.max(1, currentQuantity - 1)
+    );
+  };
+
+  const increaseQuantity = () => {
+    setQuantity((currentQuantity) =>
+      currentQuantity + 1
+    );
+  };
 
   if (loading) {
     return (
-      <main className="mx-auto max-w-7xl px-6 py-20">
+      <main className="mx-auto w-full max-w-7xl px-6 py-20">
         <LoadingSpinner />
       </main>
     );
@@ -38,7 +53,7 @@ export default function ProductDetail() {
 
   if (error) {
     return (
-      <main className="mx-auto max-w-7xl px-6 py-20">
+      <main className="mx-auto w-full max-w-7xl px-6 py-20">
         <div className="rounded-lg border border-red-200 bg-red-50 p-6">
           <h1 className="text-xl font-bold text-red-700">
             Unable to Load Product
@@ -61,7 +76,7 @@ export default function ProductDetail() {
 
   if (!product) {
     return (
-      <main className="mx-auto max-w-7xl px-6 py-20">
+      <main className="mx-auto w-full max-w-7xl px-6 py-20">
         <div className="text-center">
           <h1 className="text-3xl font-bold">
             Product Not Found
@@ -73,7 +88,7 @@ export default function ProductDetail() {
 
           <Link
             to="/shop"
-            className="mt-6 inline-block rounded-md bg-gray-950 px-6 py-3 font-semibold text-white hover:bg-gray-800"
+            className="mt-6 inline-block rounded-md bg-gray-950 px-6 py-3 font-semibold text-white transition hover:bg-gray-800"
           >
             Back to Shop
           </Link>
@@ -82,20 +97,9 @@ export default function ProductDetail() {
     );
   }
 
-  const decreaseQuantity = () => {
-    setQuantity((currentQuantity) =>
-      Math.max(1, currentQuantity - 1)
-    );
-  };
-
-  const increaseQuantity = () => {
-    setQuantity((currentQuantity) =>
-      currentQuantity + 1
-    );
-  };
-
   return (
-    <main className="mx-auto max-w-7xl px-6 py-12">
+    <main className="mx-auto w-full max-w-7xl px-6 py-12">
+
       <Link
         to="/shop"
         className="mb-10 inline-flex items-center gap-2 text-sm font-semibold text-gray-700 transition hover:text-gray-950 hover:underline"
@@ -103,9 +107,9 @@ export default function ProductDetail() {
         ← Back to Shop
       </Link>
 
-      <section className="grid gap-12 md:grid-cols-2">
+      <section className="grid min-w-0 gap-12 md:grid-cols-2">
 
-        <div className="flex min-h-[450px] items-center justify-center rounded-xl bg-gray-100 p-10">
+        <div className="flex min-h-[350px] items-center justify-center overflow-hidden rounded-xl bg-gray-100 p-8 sm:min-h-[450px]">
           <img
             src={product.image}
             alt={product.title}
@@ -113,16 +117,18 @@ export default function ProductDetail() {
           />
         </div>
 
-        <div className="flex flex-col justify-center">
+        <div className="flex min-w-0 flex-col justify-center">
+
           <p className="text-sm font-semibold uppercase tracking-wider text-gray-500">
             {product.category}
           </p>
 
-          <h1 className="mt-3 text-3xl font-bold leading-tight text-gray-950 md:text-4xl">
+          <h1 className="mt-3 break-words text-3xl font-bold leading-tight text-gray-950 md:text-4xl">
             {product.title}
           </h1>
 
           <div className="mt-5 flex flex-wrap items-center gap-4">
+
             <span className="text-3xl font-bold text-gray-950">
               ${product.price.toFixed(2)}
             </span>
@@ -130,6 +136,7 @@ export default function ProductDetail() {
             <span className="rounded-full bg-gray-100 px-4 py-2 text-sm font-medium">
               ⭐ {product.rating.rate}
             </span>
+
           </div>
 
           <p className="mt-8 leading-7 text-gray-600">
@@ -142,15 +149,16 @@ export default function ProductDetail() {
 
           <div className="my-8 border-t border-gray-200" />
 
-          {/* Quantity + Add to Cart */}
           <div>
+
             <p className="mb-3 text-sm font-semibold">
               Quantity
             </p>
 
-            <div className="flex gap-4">
-              {/* Quantity Control */}
-              <div className="flex items-center rounded-md border border-gray-300">
+            <div className="flex flex-col gap-4 sm:flex-row">
+
+              <div className="flex w-fit items-center rounded-md border border-gray-300">
+
                 <button
                   type="button"
                   onClick={decreaseQuantity}
@@ -172,18 +180,24 @@ export default function ProductDetail() {
                 >
                   +
                 </button>
+
               </div>
 
               {/* Add to Cart */}
-
               <button
                 type="button"
                 onClick={handleAddToCart}
-                className="flex-1 rounded-md bg-gray-950 px-6 py-3 font-semibold text-white transition hover:bg-gray-800"
+                className={`flex-1 rounded-md px-6 py-3 font-semibold text-white transition ${
+                  added
+                    ? "bg-green-600"
+                    : "bg-gray-950 hover:bg-gray-800"
+                }`}
               >
-                {added ? "Added to Cart ✓" : "Add to Cart"}
+                {added
+                  ? "Added to Cart ✓"
+                  : "Add to Cart"}
               </button>
-              
+
             </div>
           </div>
         </div>
@@ -191,4 +205,3 @@ export default function ProductDetail() {
     </main>
   );
 }
-

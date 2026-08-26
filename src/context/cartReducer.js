@@ -4,22 +4,25 @@ export const initialCartState = {
 
 function cartReducer(state, action) {
   switch (action.type) {
+
     case "ADD_ITEM": {
-      const product = action.payload;
+      const newItem = action.payload;
 
       const existingItem = state.items.find(
-        (item) => item.id === product.id
+        (item) => item.id === newItem.id
       );
 
       if (existingItem) {
         return {
           ...state,
+
           items: state.items.map((item) =>
-            item.id === product.id
+            item.id === newItem.id
               ? {
                   ...item,
                   quantity:
-                    item.quantity + product.quantity,
+                    item.quantity +
+                    newItem.quantity,
                 }
               : item
           ),
@@ -28,12 +31,10 @@ function cartReducer(state, action) {
 
       return {
         ...state,
+
         items: [
           ...state.items,
-          {
-            ...product,
-            quantity: product.quantity,
-          },
+          newItem,
         ],
       };
     }
@@ -41,22 +42,28 @@ function cartReducer(state, action) {
     case "REMOVE_ITEM": {
       return {
         ...state,
+
         items: state.items.filter(
-          (item) => item.id !== action.payload
+          (item) =>
+            item.id !== action.payload
         ),
       };
     }
 
     case "UPDATE_QUANTITY": {
-      const { id, quantity } = action.payload;
+      const {
+        id,
+        quantity,
+      } = action.payload;
 
       return {
         ...state,
+
         items: state.items.map((item) =>
           item.id === id
             ? {
                 ...item,
-                quantity: Math.max(1, quantity),
+                quantity,
               }
             : item
         ),
@@ -68,9 +75,7 @@ function cartReducer(state, action) {
     }
 
     default:
-      throw new Error(
-        `Unknown cart action: ${action.type}`
-      );
+      return state;
   }
 }
 

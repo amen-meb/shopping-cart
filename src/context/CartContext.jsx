@@ -12,9 +12,7 @@ import cartReducer, {
 const CartContext = createContext(null);
 
 function CartProvider({ children }) {
-  // --------------------------------
-  // Load cart from localStorage
-  // --------------------------------
+
   const [state, dispatch] = useReducer(
     cartReducer,
     initialCartState,
@@ -23,11 +21,20 @@ function CartProvider({ children }) {
         const savedCart =
           localStorage.getItem("cart");
 
-        if (savedCart) {
-          return JSON.parse(savedCart);
+        if (!savedCart) {
+          return initialState;
         }
 
-        return initialState;
+        const parsedCart = JSON.parse(savedCart);
+
+        if (
+          !parsedCart ||
+          !Array.isArray(parsedCart.items)
+        ) {
+          return initialState;
+        }
+
+        return parsedCart;
       } catch (error) {
         console.error(
           "Failed to load cart:",
@@ -39,9 +46,6 @@ function CartProvider({ children }) {
     }
   );
 
-  // --------------------------------
-  // Save cart to localStorage
-  // --------------------------------
   useEffect(() => {
     try {
       localStorage.setItem(
@@ -56,10 +60,14 @@ function CartProvider({ children }) {
     }
   }, [state]);
 
-  // --------------------------------
-  // Cart Actions
-  // --------------------------------
-  const addToCart = (product, quantity = 1) => {
+  const addToCart = (
+    product,
+    quantity = 1
+  ) => {
+    if (!product) {
+      return;
+    }
+
     dispatch({
       type: "ADD_ITEM",
       payload: {
@@ -80,6 +88,11 @@ function CartProvider({ children }) {
     productId,
     quantity
   ) => {
+    if (quantity < 1) {
+      removeFromCart(productId);
+      return;
+    }
+
     dispatch({
       type: "UPDATE_QUANTITY",
       payload: {
@@ -95,18 +108,20 @@ function CartProvider({ children }) {
     });
   };
 
-  // --------------------------------
-  // Derived Cart Values
-  // --------------------------------
   const itemCount = state.items.reduce(
-    (total, item) =>
-      total + item.quantity,
+    (total, item) => {
+      return total + item.quantity;
+    },
     0
   );
 
   const subtotal = state.items.reduce(
-    (total, item) =>
-      total + item.price * item.quantity,
+    (total, item) => {
+      return (
+        total +
+        item.price * item.quantity
+      );
+    },
     0
   );
 
@@ -114,19 +129,23 @@ function CartProvider({ children }) {
 
   const total = subtotal + tax;
 
-  // --------------------------------
-  // Context Value
-  // --------------------------------
   const value = {
     items: state.items,
+
     itemCount,
+
     subtotal,
+
     tax,
+
     total,
 
     addToCart,
+
     removeFromCart,
+
     updateQuantity,
+
     clearCart,
   };
 
@@ -137,9 +156,6 @@ function CartProvider({ children }) {
   );
 }
 
-// --------------------------------
-// Custom useCart Hook
-// --------------------------------
 export function useCart() {
   const context = useContext(CartContext);
 

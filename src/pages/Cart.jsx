@@ -6,15 +6,16 @@ import CartItem from "../components/cart/CartItem";
 import OrderSummary from "../components/cart/OrderSummary";
 
 function Cart() {
-  const { items, itemCount } = useCart();
+  const {
+    items,
+    itemCount,
+  } = useCart();
 
-  // --------------------------------
-  // Empty Cart
-  // --------------------------------
   if (items.length === 0) {
     return (
-      <main className="mx-auto max-w-7xl px-6 py-20">
+      <main className="mx-auto w-full max-w-7xl px-6 py-20">
         <div className="mx-auto max-w-xl text-center">
+
           <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-gray-100 text-3xl">
             🛒
           </div>
@@ -34,18 +35,17 @@ function Cart() {
           >
             Continue Shopping
           </Link>
+
         </div>
       </main>
     );
   }
 
-  // --------------------------------
-  // Cart with Items
-  // --------------------------------
   return (
-    <main className="mx-auto max-w-7xl px-6 py-12">
-      {/* Header */}
+    <main className="mx-auto w-full max-w-7xl px-6 py-12">
+
       <div className="mb-10">
+
         <p className="text-sm font-semibold uppercase tracking-wider text-gray-500">
           Your Shopping Cart
         </p>
@@ -56,35 +56,40 @@ function Cart() {
 
         <p className="mt-3 text-gray-500">
           {itemCount}{" "}
-          {itemCount === 1 ? "item" : "items"}{" "}
+          {itemCount === 1
+            ? "item"
+            : "items"}{" "}
           in your cart
         </p>
+
       </div>
 
-      {/* Cart Content */}
-      <div className="grid gap-10 lg:grid-cols-[1fr_380px]">
-        {/* Cart Items */}
-        <section>
-          <div className="rounded-xl border border-gray-200 px-6">
+      <div className="grid min-w-0 gap-10 lg:grid-cols-[minmax(0,1fr)_380px]">
+
+        <section className="min-w-0">
+
+          <div className="overflow-hidden rounded-xl border border-gray-200 bg-white">
+
             {items.map((item) => (
               <CartItem
                 key={item.id}
                 item={item}
               />
             ))}
+
           </div>
 
-          {/* Continue Shopping */}
           <Link
             to="/shop"
-            className="mt-6 inline-flex items-center gap-2 text-sm font-semibold hover:underline"
+            className="mt-6 inline-flex items-center gap-2 text-sm font-semibold text-gray-700 transition hover:text-gray-950 hover:underline"
           >
             ← Continue Shopping
           </Link>
+
         </section>
 
-        {/* Order Summary */}
         <OrderSummary />
+
       </div>
     </main>
   );
