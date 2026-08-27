@@ -27,9 +27,6 @@ function Checkout() {
     paymentMethod: "cash",
   });
 
-  const [orderPlaced, setOrderPlaced] =
-    useState(false);
-
   const handleChange = (event) => {
     const { name, value } = event.target;
 
@@ -42,9 +39,10 @@ function Checkout() {
   const handleSubmit = (event) => {
     event.preventDefault();
 
-    // Save order information
     const order = {
+      id: `ORD-${Date.now()}`,
       customer: formData,
+      paymentMethod: formData.paymentMethod,
       items,
       itemCount,
       subtotal,
@@ -53,17 +51,20 @@ function Checkout() {
       orderDate: new Date().toISOString(),
     };
 
-    localStorage.setItem(
-      "lastOrder",
-      JSON.stringify(order)
-    );
+    const savedOrders = localStorage.getItem("orders");
+    const orders = savedOrders
+      ? JSON.parse(savedOrders)
+      : [];
+
+    localStorage.setItem("orders", JSON.stringify([...orders, order]));
+    localStorage.setItem("lastOrder", JSON.stringify(order));
 
     clearCart();
 
-    setOrderPlaced(true);
+    navigate("/order-success");
   };
 
-  if (items.length === 0 && !orderPlaced) {
+  if (items.length === 0) {
     return (
       <main className="mx-auto w-full max-w-7xl px-6 py-20">
         <div className="mx-auto max-w-xl text-center">
@@ -89,56 +90,6 @@ function Checkout() {
           </Link>
 
         </div>
-      </main>
-    );
-  }
-
-  if (orderPlaced) {
-    return (
-      <main className="mx-auto flex min-h-[70vh] w-full max-w-7xl items-center justify-center px-6 py-20">
-
-        <div className="mx-auto max-w-xl text-center">
-
-          <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-green-100 text-3xl">
-            ✓
-          </div>
-
-          <p className="mt-6 text-sm font-semibold uppercase tracking-wider text-green-600">
-            Order Successful
-          </p>
-
-          <h1 className="mt-2 text-4xl font-bold">
-            Thank You!
-          </h1>
-
-          <p className="mt-4 leading-7 text-gray-500">
-            Your order has been successfully placed.
-            We will contact you using the information
-            you provided.
-          </p>
-
-          <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
-
-            <button
-              type="button"
-              onClick={() => navigate("/shop")}
-              className="rounded-md bg-gray-950 px-6 py-3 font-semibold text-white transition hover:bg-gray-800"
-            >
-              Continue Shopping
-            </button>
-
-            <button
-              type="button"
-              onClick={() => navigate("/")}
-              className="rounded-md border border-gray-300 px-6 py-3 font-semibold transition hover:bg-gray-50"
-            >
-              Back Home
-            </button>
-
-          </div>
-
-        </div>
-
       </main>
     );
   }

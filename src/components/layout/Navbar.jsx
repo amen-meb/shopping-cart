@@ -47,6 +47,13 @@ function Navbar() {
             >
               Shop
             </NavLink>
+
+            <NavLink
+              to="/orders"
+              className={navLinkClass}
+            >
+              Orders
+            </NavLink>
           </div>
 
           <NavLink
@@ -109,6 +116,14 @@ function Navbar() {
                 className={navLinkClass}
               >
                 Shop
+              </NavLink>
+
+              <NavLink
+                to="/orders"
+                onClick={closeMenu}
+                className={navLinkClass}
+              >
+                Orders
               </NavLink>
 
               <NavLink
