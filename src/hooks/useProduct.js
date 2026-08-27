@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 
+import API_URL from "../config/api";
+
 function useProduct(id) {
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -12,9 +14,10 @@ function useProduct(id) {
       try {
         setLoading(true);
         setError(null);
+        setProduct(null);
 
         const response = await fetch(
-          `https://fakestoreapi.com/products/${id}`,
+          `${API_URL}/products/${id}`,
           {
             signal: controller.signal,
           }
@@ -38,7 +41,12 @@ function useProduct(id) {
       }
     }
 
-    fetchProduct();
+    if (id) {
+      fetchProduct();
+    } else {
+      setError("Product ID is missing");
+      setLoading(false);
+    }
 
     return () => {
       controller.abort();

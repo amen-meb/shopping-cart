@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
-
-const API_URL = "https://fakestoreapi.com/products";
+import API_URL from "../config/api";
 
 function useProducts() {
   const [products, setProducts] = useState([]);
@@ -15,7 +14,7 @@ function useProducts() {
         setLoading(true);
         setError(null);
 
-        const response = await fetch(API_URL, {
+        const response = await fetch(`${API_URL}/products/${id}`, {
           signal: controller.signal,
         });
 
