@@ -1,9 +1,10 @@
-import { Link } from "react-router-dom";
 import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 
 import { useCart } from "../context/CartContext";
 
 function Checkout() {
+  const navigate = useNavigate();
 
   const {
     items,
@@ -18,44 +19,22 @@ function Checkout() {
     firstName: "",
     lastName: "",
     email: "",
+    phone: "",
     address: "",
     city: "",
     country: "",
     postalCode: "",
+    paymentMethod: "cash",
   });
 
   const [orderPlaced, setOrderPlaced] =
     useState(false);
 
-  // Empty cart
-  if (items.length === 0 && !orderPlaced) {
-    return (
-      <main className="mx-auto max-w-7xl px-6 py-20">
-        <div className="mx-auto max-w-xl text-center">
-          <h1 className="text-3xl font-bold">
-            Your Cart is Empty
-          </h1>
-
-          <p className="mt-3 text-gray-500">
-            Add some products before checking out.
-          </p>
-
-          <Link
-            to="/shop"
-            className="mt-8 inline-block rounded-md bg-gray-950 px-6 py-3 font-semibold text-white transition hover:bg-gray-800"
-          >
-            Continue Shopping
-          </Link>
-        </div>
-      </main>
-    );
-  }
-
   const handleChange = (event) => {
     const { name, value } = event.target;
 
-    setFormData((current) => ({
-      ...current,
+    setFormData((currentData) => ({
+      ...currentData,
       [name]: value,
     }));
   };
@@ -63,25 +42,43 @@ function Checkout() {
   const handleSubmit = (event) => {
     event.preventDefault();
 
-    setOrderPlaced(true);
+    // Save order information
+    const order = {
+      customer: formData,
+      items,
+      itemCount,
+      subtotal,
+      tax,
+      total,
+      orderDate: new Date().toISOString(),
+    };
+
+    localStorage.setItem(
+      "lastOrder",
+      JSON.stringify(order)
+    );
+
     clearCart();
+
+    setOrderPlaced(true);
   };
 
-  if (orderPlaced) {
+  if (items.length === 0 && !orderPlaced) {
     return (
-      <main className="mx-auto max-w-7xl px-6 py-20">
+      <main className="mx-auto w-full max-w-7xl px-6 py-20">
         <div className="mx-auto max-w-xl text-center">
-          <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-green-100 text-3xl">
-            ✓
+
+          <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-gray-100 text-3xl">
+            🛒
           </div>
 
           <h1 className="mt-6 text-3xl font-bold">
-            Order Confirmed!
+            Your Cart is Empty
           </h1>
 
           <p className="mt-3 text-gray-500">
-            Thank you for your purchase.
-            Your order has been successfully placed.
+            Add some products before proceeding
+            to checkout.
           </p>
 
           <Link
@@ -90,37 +87,104 @@ function Checkout() {
           >
             Continue Shopping
           </Link>
+
         </div>
       </main>
     );
   }
 
+  if (orderPlaced) {
+    return (
+      <main className="mx-auto flex min-h-[70vh] w-full max-w-7xl items-center justify-center px-6 py-20">
+
+        <div className="mx-auto max-w-xl text-center">
+
+          <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-green-100 text-3xl">
+            ✓
+          </div>
+
+          <p className="mt-6 text-sm font-semibold uppercase tracking-wider text-green-600">
+            Order Successful
+          </p>
+
+          <h1 className="mt-2 text-4xl font-bold">
+            Thank You!
+          </h1>
+
+          <p className="mt-4 leading-7 text-gray-500">
+            Your order has been successfully placed.
+            We will contact you using the information
+            you provided.
+          </p>
+
+          <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
+
+            <button
+              type="button"
+              onClick={() => navigate("/shop")}
+              className="rounded-md bg-gray-950 px-6 py-3 font-semibold text-white transition hover:bg-gray-800"
+            >
+              Continue Shopping
+            </button>
+
+            <button
+              type="button"
+              onClick={() => navigate("/")}
+              className="rounded-md border border-gray-300 px-6 py-3 font-semibold transition hover:bg-gray-50"
+            >
+              Back Home
+            </button>
+
+          </div>
+
+        </div>
+
+      </main>
+    );
+  }
+
   return (
-    <main className="mx-auto max-w-7xl px-6 py-12">
-      {/* Header */}
+    <main className="mx-auto w-full max-w-7xl px-6 py-12">
+
       <div className="mb-10">
-        <p className="text-sm font-semibold uppercase tracking-wider text-gray-500">
-          Checkout
+
+        <Link
+          to="/cart"
+          className="text-sm font-semibold text-gray-600 hover:text-gray-950 hover:underline"
+        >
+          ← Back to Cart
+        </Link>
+
+        <p className="mt-8 text-sm font-semibold uppercase tracking-wider text-gray-500">
+          Secure Checkout
         </p>
 
         <h1 className="mt-2 text-4xl font-bold">
-          Complete Your Order
+          Checkout
         </h1>
+
+        <p className="mt-3 text-gray-500">
+          Complete your information to place your
+          order.
+        </p>
+
       </div>
 
-      <div className="grid gap-10 lg:grid-cols-[1fr_380px]">
-        {/* Checkout Form */}
+      <div className="grid gap-10 lg:grid-cols-[minmax(0,1fr)_380px]">
+
         <form
           onSubmit={handleSubmit}
-          className="rounded-xl border border-gray-200 p-6 md:p-8"
+          className="space-y-8"
         >
-          {/* Customer Information */}
-          <section>
+
+          <section className="rounded-xl border border-gray-200 bg-white p-6">
+
             <h2 className="text-xl font-bold">
               Customer Information
             </h2>
 
-            <div className="mt-6 grid gap-5 md:grid-cols-2">
+            <div className="mt-6 grid gap-5 sm:grid-cols-2">
+
               {/* First Name */}
               <div>
                 <label
@@ -131,13 +195,14 @@ function Checkout() {
                 </label>
 
                 <input
+                  type="text"
                   id="firstName"
                   name="firstName"
-                  type="text"
                   value={formData.firstName}
                   onChange={handleChange}
                   required
-                  className="w-full rounded-md border border-gray-300 px-4 py-3 outline-none focus:border-gray-950"
+                  placeholder="Amanuel"
+                  className="w-full rounded-md border border-gray-300 px-4 py-3 outline-none transition focus:border-gray-950"
                 />
               </div>
 
@@ -151,18 +216,19 @@ function Checkout() {
                 </label>
 
                 <input
+                  type="text"
                   id="lastName"
                   name="lastName"
-                  type="text"
                   value={formData.lastName}
                   onChange={handleChange}
                   required
-                  className="w-full rounded-md border border-gray-300 px-4 py-3 outline-none focus:border-gray-950"
+                  placeholder="Mebratu"
+                  className="w-full rounded-md border border-gray-300 px-4 py-3 outline-none transition focus:border-gray-950"
                 />
               </div>
 
               {/* Email */}
-              <div className="md:col-span-2">
+              <div>
                 <label
                   htmlFor="email"
                   className="mb-2 block text-sm font-semibold"
@@ -171,25 +237,50 @@ function Checkout() {
                 </label>
 
                 <input
+                  type="email"
                   id="email"
                   name="email"
-                  type="email"
                   value={formData.email}
                   onChange={handleChange}
                   required
-                  className="w-full rounded-md border border-gray-300 px-4 py-3 outline-none focus:border-gray-950"
+                  placeholder="you@example.com"
+                  className="w-full rounded-md border border-gray-300 px-4 py-3 outline-none transition focus:border-gray-950"
                 />
               </div>
+
+              {/* Phone */}
+              <div>
+                <label
+                  htmlFor="phone"
+                  className="mb-2 block text-sm font-semibold"
+                >
+                  Phone
+                </label>
+
+                <input
+                  type="tel"
+                  id="phone"
+                  name="phone"
+                  value={formData.phone}
+                  onChange={handleChange}
+                  required
+                  placeholder="+251 9..."
+                  className="w-full rounded-md border border-gray-300 px-4 py-3 outline-none transition focus:border-gray-950"
+                />
+              </div>
+
             </div>
+
           </section>
 
-          {/* Shipping Information */}
-          <section className="mt-10 border-t border-gray-200 pt-10">
+          <section className="rounded-xl border border-gray-200 bg-white p-6">
+
             <h2 className="text-xl font-bold">
-              Shipping Information
+              Shipping Address
             </h2>
 
             <div className="mt-6 space-y-5">
+
               {/* Address */}
               <div>
                 <label
@@ -200,18 +291,20 @@ function Checkout() {
                 </label>
 
                 <input
+                  type="text"
                   id="address"
                   name="address"
-                  type="text"
                   value={formData.address}
                   onChange={handleChange}
                   required
-                  className="w-full rounded-md border border-gray-300 px-4 py-3 outline-none focus:border-gray-950"
+                  placeholder="Street address"
+                  className="w-full rounded-md border border-gray-300 px-4 py-3 outline-none transition focus:border-gray-950"
                 />
               </div>
 
-              {/* City + Country */}
-              <div className="grid gap-5 md:grid-cols-2">
+              {/* City / Country */}
+              <div className="grid gap-5 sm:grid-cols-2">
+
                 <div>
                   <label
                     htmlFor="city"
@@ -221,13 +314,14 @@ function Checkout() {
                   </label>
 
                   <input
+                    type="text"
                     id="city"
                     name="city"
-                    type="text"
                     value={formData.city}
                     onChange={handleChange}
                     required
-                    className="w-full rounded-md border border-gray-300 px-4 py-3 outline-none focus:border-gray-950"
+                    placeholder="Addis Ababa"
+                    className="w-full rounded-md border border-gray-300 px-4 py-3 outline-none transition focus:border-gray-950"
                   />
                 </div>
 
@@ -240,19 +334,21 @@ function Checkout() {
                   </label>
 
                   <input
+                    type="text"
                     id="country"
                     name="country"
-                    type="text"
                     value={formData.country}
                     onChange={handleChange}
                     required
-                    className="w-full rounded-md border border-gray-300 px-4 py-3 outline-none focus:border-gray-950"
+                    placeholder="Ethiopia"
+                    className="w-full rounded-md border border-gray-300 px-4 py-3 outline-none transition focus:border-gray-950"
                   />
                 </div>
+
               </div>
 
               {/* Postal Code */}
-              <div>
+              <div className="sm:max-w-xs">
                 <label
                   htmlFor="postalCode"
                   className="mb-2 block text-sm font-semibold"
@@ -261,39 +357,108 @@ function Checkout() {
                 </label>
 
                 <input
+                  type="text"
                   id="postalCode"
                   name="postalCode"
-                  type="text"
                   value={formData.postalCode}
                   onChange={handleChange}
-                  required
-                  className="w-full rounded-md border border-gray-300 px-4 py-3 outline-none focus:border-gray-950"
+                  placeholder="1000"
+                  className="w-full rounded-md border border-gray-300 px-4 py-3 outline-none transition focus:border-gray-950"
                 />
               </div>
+
             </div>
+
+          </section>
+        
+          <section className="rounded-xl border border-gray-200 bg-white p-6">
+
+            <h2 className="text-xl font-bold">
+              Payment Method
+            </h2>
+
+            <div className="mt-6 space-y-3">
+
+              {/* Cash */}
+              <label className="flex cursor-pointer items-center gap-3 rounded-md border border-gray-300 p-4 transition hover:bg-gray-50">
+
+                <input
+                  type="radio"
+                  name="paymentMethod"
+                  value="cash"
+                  checked={
+                    formData.paymentMethod ===
+                    "cash"
+                  }
+                  onChange={handleChange}
+                />
+
+                <div>
+                  <p className="font-semibold">
+                    Cash on Delivery
+                  </p>
+
+                  <p className="text-sm text-gray-500">
+                    Pay when your order arrives.
+                  </p>
+                </div>
+
+              </label>
+
+              {/* Card */}
+              <label className="flex cursor-pointer items-center gap-3 rounded-md border border-gray-300 p-4 transition hover:bg-gray-50">
+
+                <input
+                  type="radio"
+                  name="paymentMethod"
+                  value="card"
+                  checked={
+                    formData.paymentMethod ===
+                    "card"
+                  }
+                  onChange={handleChange}
+                />
+
+                <div>
+                  <p className="font-semibold">
+                    Credit / Debit Card
+                  </p>
+
+                  <p className="text-sm text-gray-500">
+                    Card payment will be added later.
+                  </p>
+                </div>
+
+              </label>
+
+            </div>
+
           </section>
 
-          {/* Submit */}
           <button
             type="submit"
-            className="mt-10 w-full rounded-md bg-gray-950 px-6 py-4 font-semibold text-white transition hover:bg-gray-800"
+            className="w-full rounded-md bg-gray-950 px-6 py-4 font-semibold text-white transition hover:bg-gray-800"
           >
             Place Order
           </button>
+
         </form>
 
-        {/* Order Summary */}
-        <aside className="h-fit rounded-xl border border-gray-200 bg-gray-50 p-6">
+        <aside className="h-fit rounded-xl border border-gray-200 bg-gray-50 p-6 lg:sticky lg:top-28">
+
           <h2 className="text-xl font-bold">
-            Your Order
+            Order Summary
           </h2>
 
-          <div className="mt-6 space-y-5">
+          {/* Products */}
+          <div className="mt-6 space-y-4">
+
             {items.map((item) => (
               <div
                 key={item.id}
                 className="flex gap-4"
               >
+
                 <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-md bg-white p-2">
                   <img
                     src={item.image}
@@ -303,53 +468,93 @@ function Checkout() {
                 </div>
 
                 <div className="min-w-0 flex-1">
+
                   <p className="line-clamp-2 text-sm font-semibold">
                     {item.title}
                   </p>
 
                   <p className="mt-1 text-sm text-gray-500">
-                    {item.quantity} × $
-                    {item.price.toFixed(2)}
+                    Qty: {item.quantity}
                   </p>
+
                 </div>
 
                 <p className="text-sm font-semibold">
                   $
                   {(
-                    item.price * item.quantity
+                    item.price *
+                    item.quantity
                   ).toFixed(2)}
                 </p>
+
               </div>
             ))}
+
           </div>
 
-          <div className="mt-6 border-t border-gray-200 pt-6">
-            <div className="flex justify-between text-gray-600">
-              <span>
-                Subtotal ({itemCount} items)
-              </span>
+          <div className="my-6 border-t border-gray-200" />
 
-              <span>
-                ${subtotal.toFixed(2)}
-              </span>
-            </div>
+          {/* Items */}
+          <div className="flex justify-between text-gray-600">
+            <span>
+              Items
+            </span>
 
-            <div className="mt-3 flex justify-between text-gray-600">
-              <span>Tax</span>
-
-              <span>${tax.toFixed(2)}</span>
-            </div>
-
-            <div className="mt-4 border-t border-gray-200 pt-4">
-              <div className="flex justify-between text-lg font-bold">
-                <span>Total</span>
-
-                <span>${total.toFixed(2)}</span>
-              </div>
-            </div>
+            <span>
+              {itemCount}
+            </span>
           </div>
+
+          {/* Subtotal */}
+          <div className="mt-4 flex justify-between text-gray-600">
+            <span>
+              Subtotal
+            </span>
+
+            <span>
+              ${subtotal.toFixed(2)}
+            </span>
+          </div>
+
+          {/* Tax */}
+          <div className="mt-4 flex justify-between text-gray-600">
+            <span>
+              Tax (15%)
+            </span>
+
+            <span>
+              ${tax.toFixed(2)}
+            </span>
+          </div>
+
+          {/* Shipping */}
+          <div className="mt-4 flex justify-between text-gray-600">
+            <span>
+              Shipping
+            </span>
+
+            <span>
+              Free
+            </span>
+          </div>
+
+          <div className="my-6 border-t border-gray-200" />
+
+          {/* Total */}
+          <div className="flex justify-between text-xl font-bold">
+            <span>
+              Total
+            </span>
+
+            <span>
+              ${total.toFixed(2)}
+            </span>
+          </div>
+
         </aside>
+
       </div>
+
     </main>
   );
 }
