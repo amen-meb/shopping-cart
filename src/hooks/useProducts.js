@@ -14,7 +14,7 @@ function useProducts() {
         setLoading(true);
         setError(null);
 
-        const response = await fetch(`${API_URL}/products/${id}`, {
+        const response = await fetch(`${API_URL}/products`, {
           signal: controller.signal,
         });
 
