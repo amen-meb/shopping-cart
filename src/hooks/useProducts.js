@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import API_URL from "../config/api";
 
 function useProducts() {
   const [products, setProducts] = useState([]);
@@ -14,7 +13,7 @@ function useProducts() {
         setLoading(true);
         setError(null);
 
-        const response = await fetch(`${API_URL}/products`, {
+        const response = await fetch(`${import.meta.env.VITE_API_URL}/products` , {
           signal: controller.signal,
         });
 
