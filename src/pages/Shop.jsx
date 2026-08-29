@@ -139,18 +139,6 @@ export default function Shop() {
         <h1 className="mt-2 text-4xl font-bold">
           Shop All Products
         </h1>
-
-        <p className="mt-3 text-gray-500">
-          Showing{" "}
-          <span className="font-semibold text-gray-900">
-            {displayProducts.length}
-          </span>{" "}
-          of{" "}
-          <span className="font-semibold text-gray-900">
-            {products.length}
-          </span>{" "}
-          products
-        </p>
       </div>
 
       <div className="mb-10 grid min-w-0 gap-6 rounded-lg border border-gray-200 bg-white p-6 md:grid-cols-1 lg:grid-cols-3">
