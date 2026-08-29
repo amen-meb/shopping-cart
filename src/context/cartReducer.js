@@ -2,7 +2,7 @@ export const initialCartState = {
   items: [],
 };
 
-function cartReducer(state, action) {
+export default function cartReducer(state, action) {
   switch (action.type) {
 
     case "ADD_ITEM": {
@@ -15,7 +15,6 @@ function cartReducer(state, action) {
       if (existingItem) {
         return {
           ...state,
-
           items: state.items.map((item) =>
             item.id === newItem.id
               ? {
@@ -31,11 +30,7 @@ function cartReducer(state, action) {
 
       return {
         ...state,
-
-        items: [
-          ...state.items,
-          newItem,
-        ],
+        items: [ ...state.items, newItem, ],
       };
     }
 
@@ -43,18 +38,14 @@ function cartReducer(state, action) {
       return {
         ...state,
 
-        items: state.items.filter(
-          (item) =>
+        items: state.items.filter((item) =>
             item.id !== action.payload
         ),
       };
     }
 
     case "UPDATE_QUANTITY": {
-      const {
-        id,
-        quantity,
-      } = action.payload;
+      const { id, quantity, } = action.payload;
 
       return {
         ...state,
@@ -79,4 +70,3 @@ function cartReducer(state, action) {
   }
 }
 
-export default cartReducer;

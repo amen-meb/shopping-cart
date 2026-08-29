@@ -3,63 +3,42 @@ import { useState } from "react";
 
 import { useCart } from "../../context/CartContext";
 
-function Navbar() {
+export default function Navbar() {
   const { itemCount } = useCart();
   const [menuOpen, setMenuOpen] = useState(false);
 
-  const navLinkClass = ({ isActive }) =>
-    `transition ${
-      isActive
+  const navLinkClass = ({ isActive }) => `transition ${isActive
         ? "font-semibold text-gray-950"
         : "text-gray-600 hover:text-gray-950"
     }`;
 
-  const closeMenu = () => {
-    setMenuOpen(false);
-  };
+  const closeMenu = () => {setMenuOpen(false);};
 
   return (
     <header className="fixed left-0 top-0 z-50 w-full border-b border-gray-200 bg-white">
       <nav className="mx-auto max-w-[1400px] px-6">
-
         <div className="hidden h-20 grid-cols-3 items-center md:grid">
-
           <div className="justify-self-start">
-            <Link
-              to="/"
-              className="text-xl font-bold tracking-tight"
-            >
+            <Link to="/" className="text-xl font-bold tracking-tight" >
               ShopCart
             </Link>
           </div>
 
           <div className="flex items-center justify-center gap-8">
-            <NavLink
-              to="/"
-              className={navLinkClass}
-            >
+            <NavLink to="/" className={navLinkClass}>
               Home
             </NavLink>
 
-            <NavLink
-              to="/shop"
-              className={navLinkClass}
-            >
+            <NavLink to="/shop" className={navLinkClass}>
               Shop
             </NavLink>
 
-            <NavLink
-              to="/orders"
-              className={navLinkClass}
-            >
+            <NavLink to="/orders" className={navLinkClass}>
               Orders
             </NavLink>
           </div>
 
-          <NavLink
-            to="/cart"
-            className={`${navLinkClass} justify-self-end`}
-          >
+          <NavLink to="/cart" className={`${navLinkClass} justify-self-end`}>
             <span className="flex items-center gap-2">
               Cart 🛒
 
@@ -74,12 +53,7 @@ function Navbar() {
 
         <div className="flex h-24 items-center justify-between md:hidden">
 
-          {/* Logo */}
-          <Link
-            to="/"
-            onClick={closeMenu}
-            className="text-xl font-bold tracking-tight"
-          >
+          <Link to="/" onClick={closeMenu} className="text-xl font-bold tracking-tight">
             ShopCart
           </Link>
 
@@ -89,8 +63,7 @@ function Navbar() {
             onClick={() => setMenuOpen(!menuOpen)}
             className="text-2xl font-light text-gray-700"
             aria-label="Toggle navigation menu"
-            aria-expanded={menuOpen}
-          >
+            aria-expanded={menuOpen}>
             {menuOpen ? "×" : "☰"}
           </button>
         </div>
@@ -102,35 +75,19 @@ function Navbar() {
 
             <div className="flex flex-col gap-7">
 
-              <NavLink
-                to="/"
-                onClick={closeMenu}
-                className={navLinkClass}
-              >
+              <NavLink to="/" onClick={closeMenu} className={navLinkClass}>
                 Home
               </NavLink>
 
-              <NavLink
-                to="/shop"
-                onClick={closeMenu}
-                className={navLinkClass}
-              >
+              <NavLink to="/shop" onClick={closeMenu} className={navLinkClass}>
                 Shop
               </NavLink>
 
-              <NavLink
-                to="/orders"
-                onClick={closeMenu}
-                className={navLinkClass}
-              >
+              <NavLink to="/orders" onClick={closeMenu} className={navLinkClass}>
                 Orders
               </NavLink>
 
-              <NavLink
-                to="/cart"
-                onClick={closeMenu}
-                className={navLinkClass}
-              >
+              <NavLink to="/cart" onClick={closeMenu} className={navLinkClass}>
                 <span className="flex items-center gap-3">
                   Cart 🛒
 
@@ -149,4 +106,3 @@ function Navbar() {
   );
 }
 
-export default Navbar;

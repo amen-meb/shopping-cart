@@ -38,9 +38,7 @@ function CartProvider({ children }) {
       } catch (error) {
         console.error(
           "Failed to load cart:",
-          error
-        );
-
+          error );
         return initialState;
       }
     }
@@ -48,8 +46,7 @@ function CartProvider({ children }) {
 
   useEffect(() => {
     try {
-      localStorage.setItem(
-        "cart",
+      localStorage.setItem( "cart",
         JSON.stringify(state)
       );
     } catch (error) {
@@ -60,20 +57,14 @@ function CartProvider({ children }) {
     }
   }, [state]);
 
-  const addToCart = (
-    product,
-    quantity = 1
-  ) => {
+  const addToCart = ( product, quantity = 1 ) => {
     if (!product) {
       return;
     }
 
     dispatch({
       type: "ADD_ITEM",
-      payload: {
-        ...product,
-        quantity,
-      },
+      payload: {...product, quantity,},
     });
   };
 
@@ -84,10 +75,7 @@ function CartProvider({ children }) {
     });
   };
 
-  const updateQuantity = (
-    productId,
-    quantity
-  ) => {
+  const updateQuantity = (productId, quantity) => {
     if (quantity < 1) {
       removeFromCart(productId);
       return;
@@ -108,11 +96,9 @@ function CartProvider({ children }) {
     });
   };
 
-  const itemCount = state.items.reduce(
-    (total, item) => {
+  const itemCount = state.items.reduce((total, item) => {
       return total + item.quantity;
-    },
-    0
+    }, 0
   );
 
   const subtotal = state.items.reduce(
@@ -131,21 +117,13 @@ function CartProvider({ children }) {
 
   const value = {
     items: state.items,
-
     itemCount,
-
     subtotal,
-
     tax,
-
     total,
-
     addToCart,
-
     removeFromCart,
-
     updateQuantity,
-
     clearCart,
   };
 
@@ -159,8 +137,7 @@ function CartProvider({ children }) {
 export function useCart() {
   const context = useContext(CartContext);
 
-  if (!context) {
-    throw new Error(
+  if (!context) { throw new Error(
       "useCart must be used inside a CartProvider"
     );
   }

@@ -65,16 +65,11 @@ export default function FeaturedProducts() {
 
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           {featuredProducts.map((product) => (
-            <article
-              key={product.id}
-              className="overflow-hidden rounded-lg border border-neutral-200 bg-white"
-            >
+            <article key={product.id}
+              className="overflow-hidden rounded-lg border border-neutral-200 bg-white">
               <div className="flex h-72 items-center justify-center bg-neutral-100 p-8">
-                <img
-                  src={product.image}
-                  alt={product.title}
-                  className="h-full w-full object-contain transition duration-300 hover:scale-105"
-                />
+                <img src={product.image} alt={product.title}
+                  className="h-full w-full object-contain transition duration-300 hover:scale-105"/>
               </div>
 
               <div className="p-6">
@@ -96,10 +91,8 @@ export default function FeaturedProducts() {
                   </span>
                 </div>
 
-                <Link
-                  to={`/shop/${product.id}`}
-                  className="mt-5 block rounded-md bg-neutral-950 px-5 py-3 text-center font-semibold text-white transition hover:bg-neutral-800"
-                >
+                <Link to={`/shop/${product.id}`}
+                  className="mt-5 block rounded-md bg-neutral-950 px-5 py-3 text-center font-semibold text-white transition hover:bg-neutral-800">
                   View Product
                 </Link>
               </div>
@@ -108,10 +101,7 @@ export default function FeaturedProducts() {
         </div>
 
         <div className="mt-10 text-center">
-          <Link
-            to="/shop"
-            className="font-semibold text-neutral-900 hover:underline"
-          >
+          <Link to="/shop" className="font-semibold text-neutral-900 hover:underline">
             View All Products →
           </Link>
         </div>

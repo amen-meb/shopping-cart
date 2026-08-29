@@ -17,10 +17,7 @@ export default function Hero() {
           seamless shopping experience.
         </p>
 
-        <Link
-          to="/shop"
-          className="mt-8 inline-block rounded-md bg-white px-7 py-3.5 font-semibold text-neutral-900 transition hover:bg-neutral-200"
-        >
+        <Link to="/shop" className="mt-8 inline-block rounded-md bg-white px-7 py-3.5 font-semibold text-neutral-900 transition hover:bg-neutral-200" >
           Shop Now
         </Link>
       </div>

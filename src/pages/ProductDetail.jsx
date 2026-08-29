@@ -45,15 +45,15 @@ export default function ProductDetail() {
 
   if (loading) {
     return (
-      <main className="mx-auto w-full max-w-7xl px-6 py-20">
+      <div className="mx-auto w-full max-w-7xl px-6 py-20">
         <LoadingSpinner />
-      </main>
+      </div>
     );
   }
 
   if (error) {
     return (
-      <main className="mx-auto w-full max-w-7xl px-6 py-20">
+      <div className="mx-auto w-full max-w-7xl px-6 py-20">
         <div className="rounded-lg border border-red-200 bg-red-50 p-6">
           <h1 className="text-xl font-bold text-red-700">
             Unable to Load Product
@@ -70,13 +70,13 @@ export default function ProductDetail() {
             ← Back to Shop
           </Link>
         </div>
-      </main>
+      </div>
     );
   }
 
   if (!product) {
     return (
-      <main className="mx-auto w-full max-w-7xl px-6 py-20">
+      <div className="mx-auto w-full max-w-7xl px-6 py-20">
         <div className="text-center">
           <h1 className="text-3xl font-bold">
             Product Not Found
@@ -93,12 +93,12 @@ export default function ProductDetail() {
             Back to Shop
           </Link>
         </div>
-      </main>
+      </div>
     );
   }
 
   return (
-    <main className="mx-auto w-full max-w-7xl px-6 py-12">
+    <div className="mx-auto w-full max-w-7xl px-6 py-12">
 
       <Link
         to="/shop"
@@ -202,6 +202,6 @@ export default function ProductDetail() {
           </div>
         </div>
       </section>
-    </main>
+    </div>
   );
 }

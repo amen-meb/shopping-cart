@@ -1,6 +1,6 @@
 import { useCart } from "../../context/CartContext";
 
-function CartItem({ item }) {
+export default function CartItem({ item }) {
   const {
     updateQuantity,
     removeFromCart,
@@ -9,20 +9,13 @@ function CartItem({ item }) {
   const handleDecrease = () => {
     if (item.quantity <= 1) {
       removeFromCart(item.id);
-      return;
-    }
+      return; }
 
-    updateQuantity(
-      item.id,
-      item.quantity - 1
-    );
+    updateQuantity( item.id, item.quantity - 1 );
   };
 
   const handleIncrease = () => {
-    updateQuantity(
-      item.id,
-      item.quantity + 1
-    );
+    updateQuantity( item.id, item.quantity + 1 );
   };
 
   return (
@@ -38,7 +31,6 @@ function CartItem({ item }) {
         </div>
 
         <div className="flex min-w-0 flex-1 flex-col">
-
           <p className="text-sm font-medium uppercase tracking-wide text-gray-500">
             {item.category}
           </p>
@@ -52,16 +44,11 @@ function CartItem({ item }) {
           </p>
 
           <div className="mt-5 flex flex-wrap items-center justify-between gap-4">
-
             <div className="flex w-fit items-center rounded-md border border-gray-300">
-
               <button
-                type="button"
-                onClick={handleDecrease}
+                type="button" onClick={handleDecrease}
                 className="px-4 py-2 text-lg transition hover:bg-gray-100"
-                aria-label="Decrease quantity"
-              >
-                −
+                aria-label="Decrease quantity" >  −
               </button>
 
               <span className="min-w-10 px-2 text-center font-semibold">
@@ -69,32 +56,20 @@ function CartItem({ item }) {
               </span>
 
               <button
-                type="button"
-                onClick={handleIncrease}
+                type="button" onClick={handleIncrease}
                 className="px-4 py-2 text-lg transition hover:bg-gray-100"
-                aria-label="Increase quantity"
-              >
-                +
+                aria-label="Increase quantity" > +
               </button>
 
             </div>
-
-            <p className="text-lg font-bold text-gray-950">
-              $
-              {(
-                item.price * item.quantity
-              ).toFixed(2)}
+            <p className="text-lg font-bold text-gray-950"> ${(item.price * item.quantity).toFixed(2)}
             </p>
 
           </div>
 
           <button
-            type="button"
-            onClick={() =>
-              removeFromCart(item.id)
-            }
-            className="mt-4 w-fit text-sm font-semibold text-red-600 transition hover:text-red-700 hover:underline"
-          >
+            type="button" onClick={() => removeFromCart(item.id)}
+            className="mt-4 w-fit text-sm font-semibold text-red-600 transition hover:text-red-700 hover:underline">
             Remove
           </button>
 
@@ -104,4 +79,3 @@ function CartItem({ item }) {
   );
 }
 
-export default CartItem;

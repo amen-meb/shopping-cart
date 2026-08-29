@@ -94,7 +94,7 @@ export default function Shop() {
 
   if (loading) {
     return (
-      <main className="mx-auto w-full max-w-7xl px-6 py-20">
+      <div className="mx-auto w-full max-w-7xl px-6 py-20">
         <div className="text-center">
           <h1 className="text-4xl font-bold">
             Shop
@@ -102,13 +102,13 @@ export default function Shop() {
 
           <LoadingSpinner />
         </div>
-      </main>
+      </div>
     );
   }
 
   if (error) {
     return (
-      <main className="mx-auto w-full max-w-7xl px-6 py-20">
+      <div className="mx-auto w-full max-w-7xl px-6 py-20">
         <div className="text-center">
           <h1 className="text-4xl font-bold">
             Shop
@@ -124,12 +124,12 @@ export default function Shop() {
             </p>
           </div>
         </div>
-      </main>
+      </div>
     );
   }
 
   return (
-    <main className="mx-auto w-full max-w-7xl px-6 py-16">
+    <div className="mx-auto w-full max-w-7xl px-6 py-16">
 
       <div className="mb-10">
         <p className="text-sm font-semibold tracking-widest text-gray-500">
@@ -191,6 +191,6 @@ export default function Shop() {
           </p>
         </div>
       )}
-    </main>
+    </div>
   );
 }

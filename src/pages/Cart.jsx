@@ -5,7 +5,7 @@ import { useCart } from "../context/CartContext";
 import CartItem from "../components/cart/CartItem";
 import OrderSummary from "../components/cart/OrderSummary";
 
-function Cart() {
+export default function Cart() {
   const {
     items,
     itemCount,
@@ -42,10 +42,8 @@ function Cart() {
   }
 
   return (
-    <main className="mx-auto w-full max-w-7xl px-6 py-12">
-
+    <div className="mx-auto w-full max-w-7xl px-6 py-12">
       <div className="mb-10">
-
         <p className="text-sm font-semibold uppercase tracking-wider text-gray-500">
           Your Shopping Cart
         </p>
@@ -65,34 +63,22 @@ function Cart() {
       </div>
 
       <div className="grid min-w-0 gap-10 lg:grid-cols-[minmax(0,1fr)_380px]">
-
         <section className="min-w-0">
-
           <div className="overflow-hidden rounded-xl border border-gray-200 bg-white">
-
             {items.map((item) => (
-              <CartItem
-                key={item.id}
-                item={item}
-              />
+              <CartItem key={item.id} item={item}/>
             ))}
-
           </div>
 
-          <Link
-            to="/shop"
-            className="mt-6 inline-flex items-center gap-2 text-sm font-semibold text-gray-700 transition hover:text-gray-950 hover:underline"
-          >
+          <Link to="/shop" className="mt-6 inline-flex items-center gap-2 text-sm font-semibold text-gray-700 transition hover:text-gray-950 hover:underline">
             ← Continue Shopping
           </Link>
-
         </section>
 
         <OrderSummary />
 
       </div>
-    </main>
+    </div>
   );
 }
 
-export default Cart;

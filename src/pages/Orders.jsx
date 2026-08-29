@@ -12,9 +12,7 @@ export default function Orders() {
   const sortedOrders = [...orders].reverse();
 
   return (
-    <main className="mx-auto w-full max-w-7xl px-6 py-12">
-
-      {/* Header */}
+    <div className="mx-auto w-full max-w-7xl px-6 py-12">
       <div className="mb-10">
 
         <p className="text-sm font-semibold uppercase tracking-wider text-gray-500">
@@ -35,7 +33,6 @@ export default function Orders() {
       {/* No Orders */}
       {sortedOrders.length === 0 ? (
         <div className="rounded-xl border border-gray-200 bg-gray-50 px-6 py-16 text-center">
-
           <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-white text-2xl">
             📦
           </div>
@@ -65,11 +62,9 @@ export default function Orders() {
               className="rounded-xl border border-gray-200 bg-white p-6"
             >
 
-              {/* Order Header */}
               <div className="flex flex-col justify-between gap-4 border-b border-gray-200 pb-5 sm:flex-row sm:items-center">
 
                 <div>
-
                   <p className="text-sm text-gray-500">
                     Order Number
                   </p>
@@ -77,11 +72,9 @@ export default function Orders() {
                   <h2 className="mt-1 font-bold">
                     {order.id}
                   </h2>
-
                 </div>
 
                 <div className="sm:text-right">
-
                   <p className="text-sm text-gray-500">
                     Order Date
                   </p>
@@ -91,21 +84,16 @@ export default function Orders() {
                       order.orderDate
                     ).toLocaleDateString()}
                   </p>
-
                 </div>
-
               </div>
 
-              {/* Order Items */}
               <div className="mt-6 space-y-4">
-
                 {order.items.map((item) => (
                   <div
                     key={item.id}
                     className="flex items-center gap-4"
                   >
 
-                    {/* Image */}
                     <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-md bg-gray-50 p-2">
                       <img
                         src={item.image}
@@ -114,9 +102,7 @@ export default function Orders() {
                       />
                     </div>
 
-                    {/* Product */}
                     <div className="min-w-0 flex-1">
-
                       <p className="line-clamp-2 text-sm font-semibold">
                         {item.title}
                       </p>
@@ -124,10 +110,8 @@ export default function Orders() {
                       <p className="mt-1 text-sm text-gray-500">
                         Quantity: {item.quantity}
                       </p>
-
                     </div>
 
-                    {/* Price */}
                     <p className="text-sm font-semibold">
                       $
                       {(
@@ -135,7 +119,6 @@ export default function Orders() {
                         item.quantity
                       ).toFixed(2)}
                     </p>
-
                   </div>
                 ))}
 
@@ -147,7 +130,6 @@ export default function Orders() {
                 <div className="flex items-center justify-between">
 
                   <div>
-
                     <p className="text-sm text-gray-500">
                       Payment
                     </p>
@@ -158,32 +140,25 @@ export default function Orders() {
                         ? "Cash on Delivery"
                         : "Credit / Debit Card"}
                     </p>
-
                   </div>
 
                   <div className="text-right">
-
                     <p className="text-sm text-gray-500">
                       Total
                     </p>
 
                     <p className="mt-1 text-xl font-bold">
-                      $
-                      {order.total.toFixed(2)}
+                      ${order.total.toFixed(2)}
                     </p>
 
                   </div>
-
                 </div>
-
               </div>
-
             </article>
           ))}
-
         </div>
       )}
 
-    </main>
+    </div>
   );
 }

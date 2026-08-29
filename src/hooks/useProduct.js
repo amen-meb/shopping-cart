@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import API_URL from "../config/api";
 
-function useProduct(id) {
+export default function useProduct(id) {
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -59,4 +59,3 @@ function useProduct(id) {
   };
 }
 
-export default useProduct;

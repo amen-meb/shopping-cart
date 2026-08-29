@@ -12,7 +12,7 @@ import NotFound from './pages/NotFound'
 import OrderSuccess from "./pages/OrderSuccess";
 import Orders from "./pages/Orders";
 
-function App() {
+export default function App() {
   return (
     <div className="flex min-h-screen flex-col">
       <Navbar />
@@ -35,4 +35,3 @@ function App() {
   )
 }
 
-export default App

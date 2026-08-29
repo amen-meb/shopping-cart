@@ -4,15 +4,10 @@ export default function ProductCard({ product }) {
   return (
     <article className="flex min-w-0 h-full flex-col overflow-hidden rounded-xl border border-gray-200 bg-white transition duration-200 hover:-translate-y-1 hover:shadow-lg">
       
-      <Link
-        to={`/shop/${product.id}`}
-        className="flex h-64 w-full items-center justify-center bg-gray-50 p-6"
-      >
-        <img
-          src={product.image}
+      <Link to={`/shop/${product.id}`} className="flex h-64 w-full items-center justify-center bg-gray-50 p-6">
+        <img src={product.image}
           alt={product.title}
-          className="h-full w-full object-contain"
-        />
+          className="h-full w-full object-contain"/>
       </Link>
 
       {/* Product Information */}
@@ -22,10 +17,8 @@ export default function ProductCard({ product }) {
           {product.category}
         </p>
 
-        <Link
-          to={`/shop/${product.id}`}
-          className="mt-2 line-clamp-2 text-lg font-semibold text-gray-900 hover:text-gray-600"
-        >
+        <Link to={`/shop/${product.id}`}
+          className="mt-2 line-clamp-2 text-lg font-semibold text-gray-900 hover:text-gray-600">
           {product.title}
         </Link>
 
@@ -49,10 +42,8 @@ export default function ProductCard({ product }) {
             ${product.price.toFixed(2)}
           </p>
 
-          <Link
-            to={`/shop/${product.id}`}
-            className="mt-4 block w-full rounded-md bg-gray-950 px-4 py-3 text-center font-semibold text-white transition hover:bg-gray-800"
-          >
+          <Link to={`/shop/${product.id}`}
+            className="mt-4 block w-full rounded-md bg-gray-950 px-4 py-3 text-center font-semibold text-white transition hover:bg-gray-800">
             View Details
           </Link>
 

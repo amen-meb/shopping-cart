@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { useCart } from "../../context/CartContext";
 
-function OrderSummary() {
+export default function OrderSummary() {
   const {
     itemCount,
     subtotal,
@@ -15,8 +15,6 @@ function OrderSummary() {
       <h2 className="text-xl font-bold">
         Order Summary
       </h2>
-
-      {/* Summary */}
       <div className="mt-6 space-y-4">
         <div className="flex justify-between text-gray-600">
           <span>
@@ -47,24 +45,15 @@ function OrderSummary() {
         </div>
       </div>
 
-      {/* Checkout */}
-      <Link
-        to="/checkout"
-        className="mt-8 block w-full rounded-md bg-gray-950 px-6 py-3 text-center font-semibold text-white transition hover:bg-gray-800"
-        >
+      <Link to="/checkout"
+        className="mt-8 block w-full rounded-md bg-gray-950 px-6 py-3 text-center font-semibold text-white transition hover:bg-gray-800" >
         Proceed to Checkout
         </Link>
 
-      {/* Clear Cart */}
-      <button
-        type="button"
-        onClick={clearCart}
-        className="mt-3 w-full rounded-md border border-gray-300 bg-white px-6 py-3 font-semibold text-gray-700 transition hover:bg-gray-100"
-      >
+      <button type="button" onClick={clearCart}
+        className="mt-3 w-full rounded-md border border-gray-300 bg-white px-6 py-3 font-semibold text-gray-700 transition hover:bg-gray-100" >
         Clear Cart
       </button>
     </aside>
   );
 }
-
-export default OrderSummary;

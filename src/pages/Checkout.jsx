@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 
 import { useCart } from "../context/CartContext";
 
-function Checkout() {
+export default function Checkout() {
   const navigate = useNavigate();
 
   const {
@@ -127,16 +127,12 @@ function Checkout() {
           onSubmit={handleSubmit}
           className="space-y-8"
         >
-
           <section className="rounded-xl border border-gray-200 bg-white p-6">
-
             <h2 className="text-xl font-bold">
               Customer Information
             </h2>
 
             <div className="mt-6 grid gap-5 sm:grid-cols-2">
-
-              {/* First Name */}
               <div>
                 <label
                   htmlFor="firstName"
@@ -157,7 +153,6 @@ function Checkout() {
                 />
               </div>
 
-              {/* Last Name */}
               <div>
                 <label
                   htmlFor="lastName"
@@ -178,7 +173,6 @@ function Checkout() {
                 />
               </div>
 
-              {/* Email */}
               <div>
                 <label
                   htmlFor="email"
@@ -199,7 +193,6 @@ function Checkout() {
                 />
               </div>
 
-              {/* Phone */}
               <div>
                 <label
                   htmlFor="phone"
@@ -232,7 +225,6 @@ function Checkout() {
 
             <div className="mt-6 space-y-5">
 
-              {/* Address */}
               <div>
                 <label
                   htmlFor="address"
@@ -253,7 +245,6 @@ function Checkout() {
                 />
               </div>
 
-              {/* City / Country */}
               <div className="grid gap-5 sm:grid-cols-2">
 
                 <div>
@@ -298,7 +289,6 @@ function Checkout() {
 
               </div>
 
-              {/* Postal Code */}
               <div className="sm:max-w-xs">
                 <label
                   htmlFor="postalCode"
@@ -330,7 +320,6 @@ function Checkout() {
 
             <div className="mt-6 space-y-3">
 
-              {/* Cash */}
               <label className="flex cursor-pointer items-center gap-3 rounded-md border border-gray-300 p-4 transition hover:bg-gray-50">
 
                 <input
@@ -356,7 +345,6 @@ function Checkout() {
 
               </label>
 
-              {/* Card */}
               <label className="flex cursor-pointer items-center gap-3 rounded-md border border-gray-300 p-4 transition hover:bg-gray-50">
 
                 <input
@@ -401,7 +389,6 @@ function Checkout() {
             Order Summary
           </h2>
 
-          {/* Products */}
           <div className="mt-6 space-y-4">
 
             {items.map((item) => (
@@ -445,7 +432,6 @@ function Checkout() {
 
           <div className="my-6 border-t border-gray-200" />
 
-          {/* Items */}
           <div className="flex justify-between text-gray-600">
             <span>
               Items
@@ -456,7 +442,6 @@ function Checkout() {
             </span>
           </div>
 
-          {/* Subtotal */}
           <div className="mt-4 flex justify-between text-gray-600">
             <span>
               Subtotal
@@ -491,7 +476,6 @@ function Checkout() {
 
           <div className="my-6 border-t border-gray-200" />
 
-          {/* Total */}
           <div className="flex justify-between text-xl font-bold">
             <span>
               Total
@@ -510,4 +494,3 @@ function Checkout() {
   );
 }
 
-export default Checkout;

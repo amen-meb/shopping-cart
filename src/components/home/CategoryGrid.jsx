@@ -41,8 +41,7 @@ export default function CategoryGrid() {
           {categories.map((category) => (
             <div
               key={category.value}
-              className="border border-neutral-200 bg-white p-7 transition hover:-translate-y-1 hover:shadow-md"
-            >
+              className="border border-neutral-200 bg-white p-7 transition hover:-translate-y-1 hover:shadow-md">
               <h3 className="mb-3 text-lg font-semibold text-neutral-950">
                 {category.name}
               </h3>
@@ -52,11 +51,8 @@ export default function CategoryGrid() {
               </p>
 
               <Link
-                to={`/shop?category=${encodeURIComponent(
-                  category.value
-                )}`}
-                className="font-semibold text-neutral-900 hover:underline"
-              >
+                to={`/shop?category=${encodeURIComponent(category.value)}`}
+                className="font-semibold text-neutral-900 hover:underline">
                 Explore →
               </Link>
             </div>
